@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id_user` INT(11) NOT NULL,
   `firstname` VARCHAR(45) NOT NULL,
   `lastname` VARCHAR(45) NULL,
-  `email` (255) NULL,
-  `password` (32) NOT NULL,
+  `email` VARCHAR(255) NULL,
+  `password` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`id_user`))
 AUTO_INCREMENT = 1;
 
