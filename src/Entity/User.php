@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User.
+ * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
  */
-class User implements UserInterface
+class User
 {
     /**
      * @var int
@@ -37,35 +38,82 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=32, nullable=false)
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
-     * A visual identifier that represents this user.
+     * @var string
      *
-     * @see UserInterface
+     * @ORM\Column(name="roles", type="string", length=45, nullable=false)
      */
-    public function getUsername(): string
+    private $roles;
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="TodoList", mappedBy="user")
+     * @ORM\OrderBy({"duedate" = "DESC"})
+     */
+    private $lists;
+
+    public function __construct()
     {
-        return (string) $this->email;
+        $this->lists = new ArrayCollection();
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
+    public function getIdUser(): ?int
     {
-        return (string) $this->password;
+        return $this->idUser;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -75,29 +123,48 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function eraseCredentials()
+    public function getRoles(): ?string
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        return $this->roles;
+    }
+
+    public function setRoles(string $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
-     * @inheritDoc
+     * @return Collection|TodoList[]
      */
-    public function getRoles()
+    public function getLists(): Collection
     {
-        // TODO: Implement getRoles() method.
+        return $this->lists;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getSalt()
+    public function addList(TodoList $list): self
     {
-        // use for bcrypt
-        // TODO: Implement getSalt() method.
+        if (!$this->lists->contains($list)) {
+            $this->lists[] = $list;
+            $list->setUser($this);
+        }
+
+        return $this;
     }
+
+    public function removeList(TodoList $list): self
+    {
+        if ($this->lists->contains($list)) {
+            $this->lists->removeElement($list);
+            // set the owning side to null (unless already changed)
+            if ($list->getUser() === $this) {
+                $list->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

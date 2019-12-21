@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>List Detail</h1>
+    <div>
+        <h2>Description </h2>
+        <div>
+            {{ todolist[0].description }}
+        </div>
+    </div>
+    <div>
+        <h2> Tasks</h2>
+        <table class="table table-bordered table-responsive">
+            <thead>
+            <tr class="">
+                <th>#</th>
+                <th>Todo</th>
+                <th>Assigned Date</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in todolist[0].tasks %}
+                <tr class="">
+                    <td scope="row">{{task.idTask}}</td>
+                    <td>{{task.taskname}}</td>
+                    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
+                    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+                    <td class="">
+                        <div class="col">
+                            <a href="#" class="btn btn-success m-1">View</a>
+                            <a href="#" class="btn btn-primary m-1">Edit</a>
+                            <a href="#" class="btn btn-danger m-1">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock body %}

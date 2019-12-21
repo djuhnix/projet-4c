@@ -5,9 +5,9 @@ security:
         users:
             entity:
                 # the class of the entity that represents users
-                class: 'App\Entity\User'
+                class: App\Entity\User
                 # the property to query by - e.g. username, email, etc
-                property: 'email'
+                property: email
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
