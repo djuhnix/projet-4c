@@ -36,7 +36,7 @@
                 <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item" >
-                <a class="nav-link" href="{{ path("create") }}">Create</a>
+                <a class="nav-link" href="{{ path("list_create") }}">Create</a>
             </li>
 
 
@@ -44,7 +44,7 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row">
+    <div class="row m-1">
         <div class="col-md-12">
             <!--<br><br><br>-->
             {% for flash_message in app.session.flashbag.get('notice') %}
@@ -54,8 +54,10 @@
             {% for flash_message in app.session.flashbag.get('error') %}
                 <div class="alert alert-danger">{{flash_message}}</div>
             {% endfor %}
-            {% block body %}{% endblock %}
         </div>
+    </div>
+    <div class="container">
+        {% block body %}{% endblock %}
     </div>
 </div><!-- /.container -->
 {% block javascripts %}{% endblock %}

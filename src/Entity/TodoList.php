@@ -20,7 +20,7 @@ class TodoList
      *
      * @ORM\Column(name="id_list", type="integer", nullable=false, options={"comment"="	"})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idList;
 
@@ -55,8 +55,6 @@ class TodoList
     /**
      * @var User
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\ManyToOne(targetEntity="User", inversedBy="lists")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id_user")

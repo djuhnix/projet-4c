@@ -2,15 +2,23 @@
 
 {% block body %}
     <h1>List Detail</h1>
+        <a href="{{ path('list_edit', {'id': todolist.idList}) }}" class="btn btn-primary m-1">Edit list info</a>
+        <a href="{{ path('list_delete', {'id': todolist.idList}) }}" class="btn btn-danger m-1">Delete list</a>
+    <ul class="list-group">
+        {#<li class="list-group-item">Category : {{category}}</li>#}
+        <li class="list-group-item"><strong>Create:</strong> {{todolist.createdate | date('F j, Y, g:i a')}}</li>
+        <li class="list-group-item"><strong>Description</strong> : {{todolist.description}}</li>
+        <li class="list-group-item"><strong>Due:</strong> {{todolist.duedate | date('F j, Y, g:i a')}}</li>
+    </ul>
     <div>
         <h2>Description </h2>
         <div>
-            {{ todolist[0].description }}
+            {{ todolist.description }}
         </div>
     </div>
     <div>
         <h2> Tasks</h2>
-        <table class="table table-bordered table-responsive">
+        <table class="table table-bordered table-responsive-md">
             <thead>
             <tr class="">
                 <th>#</th>
@@ -21,15 +29,15 @@
             </tr>
             </thead>
             <tbody>
-            {% for task in todolist[0].tasks %}
+            {% for task in todolist.tasks %}
                 <tr class="">
                     <td scope="row">{{task.idTask}}</td>
                     <td>{{task.taskname}}</td>
-                    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
-                    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+                    <td>{{task.createdate | date('F j, Y, g:i a')}}</td>
+                    <td>{{task.duedate | date('F j, Y, g:i a')}}</td>
                     <td class="">
                         <div class="col">
-                            <a href="#" class="btn btn-success m-1">View</a>
+                            <a href="{{ path('task_details', {'id': task.idTask}) }}" class="btn btn-success m-1">View</a>
                             <a href="#" class="btn btn-primary m-1">Edit</a>
                             <a href="#" class="btn btn-danger m-1">Delete</a>
                         </div>

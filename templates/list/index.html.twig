@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {#</br></br></br></br>#}
-    <table class="table table-bordered table-responsive">
+    <table class="table table-bordered table-responsive-md">
         <thead>
         <tr class="">
             <th>#</th>
@@ -20,9 +20,9 @@
                 <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
                 <td class="">
                     <div class="col">
-                        <a href="{{ path('details', {'id': todo.idList}) }}" class="btn btn-success m-1">View</a>
-                        <a href="todos/edit/{{todo.idList}}" class="btn btn-primary m-1">Edit</a>
-                        <a href="{{ path('create') }}" class="btn btn-danger m-1">Delete</a>
+                        <a href="{{ path('list_details', {'id': todo.idList}) }}" class="btn btn-success m-1">View</a>
+                        <a href="{{ path('list_edit', {'id': todo.idList}) }}" class="btn btn-primary m-1">Edit</a>
+                        <a href="{{ path('list_delete', {'id': todo.idList}) }}" class="btn btn-danger m-1">Delete</a>
                     </div>
                 </td>
             </tr>
