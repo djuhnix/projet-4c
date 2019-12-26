@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,7 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class TaskController.
  *
- * @Route("/task", name="task")
+ * @Route("/member/task", name="task")
+ * @IsGranted("ROLE_USER")
  */
 class TaskController extends AbstractController
 {

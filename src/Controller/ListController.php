@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TodoList;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ListController.
- *
- * @Route("/list", name="list")
+ * @Route("/member/list", name="list")
+ * @IsGranted("ROLE_USER")
  */
 class ListController extends AbstractController
 {
