@@ -5,21 +5,25 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields="email")
  * @ORM\Entity
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id_user", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $idUser;
 
@@ -41,8 +45,17 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
+    /*
+     * @var string|null
+     *
+     * @Assert\NotBlank()
+     * @ORM\Column(name="username", type="string", length=45, nullable=false)
+     *
+    private $username;*/
 
     /**
      * @var string
@@ -52,11 +65,16 @@ class User
     private $password;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="roles", type="string", length=45, nullable=false)
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    private $roles;
+    private $isActive;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="roles", type="array", length=45, nullable=false)
+     */
+    private $roles = [];
     /**
      * @var Collection
      *
@@ -68,6 +86,9 @@ class User
     public function __construct()
     {
         $this->lists = new ArrayCollection();
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid('', true));
     }
 
     public function getIdUser(): ?int
@@ -123,16 +144,25 @@ class User
         return $this;
     }
 
-    public function getRoles(): ?string
+    public function getRoles(): array
     {
+        if (empty($this->roles)) {
+            return ['ROLE_USER'];
+        }
+
         return $this->roles;
     }
 
-    public function setRoles(string $roles): self
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
     }
 
     /**
@@ -162,6 +192,76 @@ class User
                 $list->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->idUser,
+            $this->email,
+            $this->password,
+            $this->isActive,
+                // see section on salt below
+                // $this->salt,
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        list(
+                $this->idUser,
+                $this->email,
+                $this->password,
+                $this->isActive,
+                // see section on salt below
+                // $this->salt
+                ) = unserialize($serialized);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
