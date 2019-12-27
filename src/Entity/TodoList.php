@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TodoList
+ * TodoList.
  *
  * @ORM\Table(name="todo_list", indexes={@ORM\Index(name="fk_list_user1_idx", columns={"user"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ListRepository")
  */
 class TodoList
 {
@@ -169,6 +169,4 @@ class TodoList
 
         return $this;
     }
-
-
 }

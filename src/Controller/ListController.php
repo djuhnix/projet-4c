@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ListController.
+ *
  * @Route("/member/list", name="list")
  * @IsGranted("ROLE_USER")
  */
@@ -29,7 +30,9 @@ class ListController extends AbstractController
     {
         $todos = $this->getDoctrine()
             ->getRepository(TodoList::class)
-            ->findAll();
+            ->findBy(
+                ['user' => $this->getUser()->getIdUser()],
+                ['duedate' => 'ASC']);
 
         return $this->render('list/index.html.twig', [
             'controller_name' => 'ListController',
@@ -99,11 +102,12 @@ class ListController extends AbstractController
 
             $now = new\DateTime('now');
 
-            $todo->setListname($name);
-            //$todo->setCategory($category);
-            $todo->setDescription($description);
-            $todo->setDuedate($dueDate);
-            $todo->setCreateDate($now);
+            $todo
+                ->setListname($name)
+                ->setDescription($description)
+                ->setDuedate($dueDate)
+                ->setCreateDate($now)
+                ->setUser($this->getUser());
 
             $manager = $this->getDoctrine()->getManager();
             $manager->getMetadataFactory()->setMetadataFor(TodoList::class, $manager->getClassMetadata(TodoList::class));
@@ -115,7 +119,7 @@ class ListController extends AbstractController
                 'Todo list added'
             );
 
-            return $this->redirectToRoute('list');
+            return $this->redirectToRoute('list_home');
         }
 
         return $this->render('list/create.html.twig', [
@@ -126,7 +130,6 @@ class ListController extends AbstractController
     /**
      * @Route("/details/{id}", name="_details", requirements={"id" = "\d+"})
      *
-     * @param TodoList $todoList
      * @return Response
      */
     public function details(TodoList $todoList)
@@ -238,7 +241,6 @@ class ListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="_delete", requirements={"id" = "\d+"})
      *
-     * @param TodoList $todoList
      * @return RedirectResponse
      */
     public function delete(TodoList $todoList)
@@ -253,6 +255,6 @@ class ListController extends AbstractController
             'Todo Removed'
         );
 
-        return $this->redirectToRoute('list');
+        return $this->redirectToRoute('list_home');
     }
 }

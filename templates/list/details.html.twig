@@ -37,9 +37,15 @@
                     <td>{{task.duedate | date('F j, Y, g:i a')}}</td>
                     <td class="">
                         <div class="col">
-                            <a href="{{ path('task_details', {'id': task.idTask}) }}" class="btn btn-success m-1">View</a>
-                            <a href="#" class="btn btn-primary m-1">Edit</a>
-                            <a href="#" class="btn btn-danger m-1">Delete</a>
+                            <a href="{{ path('task_details', {'id': task.idTask}) }}" class="btn btn-success m-1">
+                                <i class="material-icons">remove_red_eye</i>
+                            </a>
+                            <a href="#" class="btn btn-warning m-1">
+                                <i class="material-icons text-warning">edit</i>
+                            </a>
+                            <a href="#" class="btn btn-danger m-1">
+                                <i class="material-icons text-danger">delete_forever</i>
+                            </a>
                         </div>
                     </td>
                 </tr>

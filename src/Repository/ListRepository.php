@@ -8,14 +8,12 @@ use Doctrine\ORM\EntityRepository;
 
 class ListRepository extends EntityRepository
 {
-    public function findByIdAndUser(int $id, User $user): TodoList
+    public function findByUser(User $user): TodoList
     {
         $queryBuilder = $this->createQueryBuilder('l');
         $queryBuilder
             ->where('l.user = :user')
-            ->setParameter('user', $user->getIdUser())
-            ->andWhere('l.idList = :id')
-            ->setParameter('id', $id);
+            ->setParameter('user', $user->getIdUser());
 
         return $queryBuilder->getQuery()->getSingleResult();
     }

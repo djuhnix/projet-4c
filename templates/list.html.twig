@@ -1,9 +1,15 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-    <h1>Your List</h1>
-    <div>
-        This is all your list
-    </div>
+{% switch context  %}
+    {% case 'task' %}
+        {% set view_route %}
+        {% set edit_route %}
+        {% set delete_route  %}
+    {% default %}
+        {% set view_route %}
+        {% set edit_route %}
+        {% set delete_route %}
+{% elseif context %}
+
+{% endswitch %}
     <table class="table table-bordered table-responsive-md">
         <thead>
         <tr class="">
@@ -25,7 +31,7 @@
                 <td class="">
                     <div class="col">
                         <a href="{{ path('list_details', {'id': todo.idList}) }}" class="btn btn-success m-1">
-                            <i class="material-icons">remove_red_eye</i>
+                            View
                         </a>
                         <a href="{{ path('list_edit', {'id': todo.idList}) }}" class="btn btn-warning m-1">
                             <i class="material-icons  text-light">edit</i>
@@ -51,4 +57,3 @@
             </tr>
         </tfoot>
     </table>
-{% endblock %}
