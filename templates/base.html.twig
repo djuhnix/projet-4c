@@ -48,9 +48,9 @@
     {% block auth %}
     <form class="form-inline">
         {% if app.user %}
-            <a class="btn btn-danger" type="button" href="{{ path('app_logout') }}">Déconnexion</a>
+            <a class="btn btn-danger" type="button" href="{{ path('app_logout') }}">Log out</a>
         {% else %}
-            <a class="btn btn-primary" type="button" href="{{ path('app_login') }}"> Connexion</a>
+            <a class="btn btn-primary" type="button" href="{{ path('app_login') }}"> Log in</a>
         {% endif %}
     </form>
     {% endblock %}

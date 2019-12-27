@@ -43,6 +43,7 @@ class ListController extends AbstractController
     /**
      * @Route("/create", name="_create")
      *
+     * @param Request $request
      * @return RedirectResponse|Response
      *
      * @throws Exception
@@ -85,9 +86,9 @@ class ListController extends AbstractController
                 'Save',
                 SubmitType::class,
                 [
-                    'label' => 'Create Todo',
+                    'label' => 'Create Todo List',
                     'attr' => [
-                        'class' => 'btn btn-succes',
+                        'class' => 'btn btn-success',
                         'style' => 'margin-bottom:25px',
                     ],
                 ])
