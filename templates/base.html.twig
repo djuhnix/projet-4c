@@ -19,9 +19,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <!-- Bootstrap core JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
 </head>
@@ -35,12 +34,21 @@
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item {% block home %}{% endblock %}">
                 <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item" >
-                <a class="nav-link" href="{{ path("list_create") }}">Create</a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item {% block list %}{% endblock %}" >
+                    <a class="nav-link" href="{{ path("list_home") }}">List</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" href="{{ path("list_create") }}">
+                        <i class="material-icons text-success">
+                            add_circle_outline
+                        </i>
+                    </a>
+                </li>
+            {% endif %}
 
 
         </ul>
@@ -48,9 +56,23 @@
     {% block auth %}
     <form class="form-inline">
         {% if app.user %}
-            <a class="btn btn-danger" type="button" href="{{ path('app_logout') }}">Log out</a>
+            <a class="btn" type="button" href="{{ path('member_profile') }}">
+                <i class="material-icons text-primary">
+                    person_outline
+                </i>
+            </a>
+            <a class="btn ml-1" type="button" href="{{ path('app_logout') }}">
+                <i class="material-icons text-danger">
+                    exit_to_app
+                </i>
+            </a>
+
         {% else %}
-            <a class="btn btn-primary" type="button" href="{{ path('app_login') }}"> Log in</a>
+            <a class="btn-outline" type="button" href="{{ path('app_login') }}">
+                <i class="material-icons text-primary">
+                    person_outline
+                </i>
+            </a>
         {% endif %}
     </form>
     {% endblock %}
@@ -58,7 +80,6 @@
 <div class="container">
     <div class="row m-1">
         <div class="col-md-12">
-            <!--<br><br><br>-->
             {% for flash_message in app.session.flashbag.get('notice') %}
                 <div class="alert alert-success">{{flash_message}}</div>
             {% endfor %}

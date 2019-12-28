@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -51,6 +51,7 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'New password',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
@@ -64,28 +65,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control input-xlarge',
                     'style' => 'margin-bottom:15px',
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class,
-                [
-                    'label' => 'Agree Terms',
-                    'mapped' => false,
-                    'constraints' => [
-                        new NotBlank([
-                            'message' => 'Please enter an email',
-                        ]),
-                        new IsTrue([
-                            'message' => 'You should agree to our terms.',
-                        ]),
-                    ],
-                    'attr' => [
-                        'class' => 'form-check-label',
-                        'style' => 'margin:15px',
-                    ],
-                ]
-            )
             ->add(
                 'Save',
                 SubmitType::class,

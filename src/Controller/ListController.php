@@ -191,7 +191,7 @@ class ListController extends AbstractController
                 DateTimeType::class,
                 [
                     'attr' => [
-                        'class' => '',
+                        //'class' => '',
                         'style' => 'margin-bottom:25px',
                     ],
                 ])
@@ -209,18 +209,12 @@ class ListController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $name = $form['listname']->getData();
-            //$category = $form['category']->getData();
-            $description = $form['description']->getData();
-            $dueDate = $form['due_date']->getData();
-
             $manager = $this->getDoctrine()->getManager();
             $todoList = $manager->getRepository(TodoList::class)->find($idList);
 
-            $todoList->setListName($name);
-            //$todoList->setCategory($category);
-            $todoList->setDescription($description);
-            $todoList->setDuedate($dueDate);
+            $todoList->setListName($form['listname']->getData());
+            $todoList->setDescription($form['description']->getData());
+            $todoList->setDuedate($form['due_date']->getData());
             $todoList->setCreateDate($now);
 
             $manager->flush();
@@ -242,6 +236,7 @@ class ListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="_delete", requirements={"id" = "\d+"})
      *
+     * @param TodoList $todoList
      * @return RedirectResponse
      */
     public function delete(TodoList $todoList)

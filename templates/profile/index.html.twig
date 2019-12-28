@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your profile!{% endblock %}
+
+{% block body %}
+<div class="">
+    <nav class="nav nav-tabs nav-fill">
+        <a class="active nav-item nav-link" href="#home" data-toggle="tab">Profile</a>
+        <a class="nav-item nav-link" href="#profile" data-toggle="tab">Password</a>
+    </nav>
+    <div class="tab-content">
+        <div class="tab-pane active in" id="home" role="tabpanel">
+            {{ form(form) }}
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel">
+            {{ form_start(passwordForm ) }}
+                {{ form_row(passwordForm.plainPassword) }}
+            {{ form_end(passwordForm) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

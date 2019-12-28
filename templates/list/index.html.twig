@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+    List
+{% endblock %}
+{% block list %}active{% endblock %}
+
 {% block body %}
-    <h1>Your List</h1>
-    <div>
-        This is all your list
-    </div>
+    <h2>Your List</h2>
+
     <table class="table table-bordered table-responsive-md">
         <thead>
         <tr class="">
-            <th scope="col">#</th>
+            <th >#</th>
             <th scope="col">List Name</th>
             <th scope="col">Assigned Date</th>
             <th scope="col">Due Date</th>
@@ -42,10 +45,10 @@
         </tbody>
         <tfoot>
             <tr>
-                <td>x</td>
+                <td></td>
                 <td colspan="3" class="text-center" >
-                    <a class=" m-1" href="{{ path("list_create") }}">
-                        <i class="material-icons btn btn-success">fiber_new</i>
+                    <a class="btn btn-success m-1" href="{{ path("list_create") }}">
+                        <i class="material-icons">fiber_new</i>
                     </a>
                 </td>
             </tr>

@@ -4,8 +4,5 @@
 
 {% block body %}
     <h1>Register</h1>
-
-    {{ form_start(registrationForm) }}
-    {{ form_widget(registrationForm) }}
-    {{ form_end(registrationForm) }}
+    {{  include('include/form.html.twig', {'form':registrationForm}) }}
 {% endblock %}

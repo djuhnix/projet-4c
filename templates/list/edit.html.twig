@@ -4,7 +4,5 @@
 {% endblock %}
 {% block body %}
     <h2 class='page-header'>Edit Todos</h2>
-    {{form_start(form)}}
-    {{form_widget(form)}}
-    {{form_end(form)}}
+    {{ include('include/form.html.twig', {'form':form}) }}
 {% endblock %}
