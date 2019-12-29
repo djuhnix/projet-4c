@@ -1,12 +1,97 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Welcome!{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    <!-- Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <!-- Bootstrap core JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+    <a class="navbar-brand" href="{{ path('home') }}">Todolist</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item {% block home %}{% endblock %}">
+                <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% if app.user %}
+                <li class="nav-item {% block list %}{% endblock %}" >
+                    <a class="nav-link" href="{{ path("list_home") }}">List</a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" href="{{ path("list_create") }}">
+                        <i class="material-icons text-success">
+                            add_circle_outline
+                        </i>
+                    </a>
+                </li>
+            {% endif %}
+
+
+        </ul>
+    </div>
+    {% block auth %}
+    <form class="form-inline">
+        {% if app.user %}
+            <a class="btn" type="button" href="{{ path('member_profile') }}">
+                <i class="material-icons text-primary">
+                    person_outline
+                </i>
+            </a>
+            <a class="btn ml-1" type="button" href="{{ path('app_logout') }}">
+                <i class="material-icons text-danger">
+                    exit_to_app
+                </i>
+            </a>
+
+        {% else %}
+            <a class="btn-outline" type="button" href="{{ path('app_login') }}">
+                <i class="material-icons text-primary">
+                    person_outline
+                </i>
+            </a>
+        {% endif %}
+    </form>
+    {% endblock %}
+</nav>
+<div class="container">
+    <div class="row m-1">
+        <div class="col-md-12">
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success">{{flash_message}}</div>
+            {% endfor %}
+
+            {% for flash_message in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">{{flash_message}}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+</div><!-- /.container -->
+{% block javascripts %}{% endblock %}
+</body>
 </html>

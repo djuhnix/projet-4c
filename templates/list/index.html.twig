@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    List
+{% endblock %}
+{% block list %}active{% endblock %}
+
+{% block body %}
+    <h2>Your List</h2>
+    {{ include('include/list.html.twig', {'todos' : todos, 'context' : 'list'}) }}
+{% endblock %}

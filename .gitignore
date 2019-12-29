@@ -18,3 +18,4 @@
 ###PhpStorm config
 /.idea/
 
+/.php_cs.cache
