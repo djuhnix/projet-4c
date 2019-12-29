@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Task
+ * Task.
  *
  * @ORM\Table(name="task", indexes={@ORM\Index(name="fk_task_user1_idx", columns={"user"}), @ORM\Index(name="fk_task_list_idx", columns={"todo_list"})})
  * @ORM\Entity
@@ -26,6 +27,7 @@ class Task
      * @var string|null
      *
      * @ORM\Column(name="taskname", type="string", length=45, nullable=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -33,6 +35,7 @@ class Task
      * @var DateTime
      *
      * @ORM\Column(name="createDate", type="date", nullable=false)
+     * @Assert\Type("\DateTime")
      */
     private $createdate;
 
@@ -40,6 +43,11 @@ class Task
      * @var DateTime|null
      *
      * @ORM\Column(name="dueDate", type="date", nullable=true)
+     * @Assert\Type("\DateTime")
+     * @Assert\Expression(
+     *     "value >= this.getCreatedate()",
+     *     message="Due date must be later than the create date"
+     * )
      */
     private $duedate;
 
@@ -49,6 +57,12 @@ class Task
      * @ORM\Column(name="description", type="string", length=500, nullable=true)
      */
     private $description;
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="done", type="string", nullable=true)
+     */
+    private $done = false;
 
     /**
      * @var TodoList
@@ -57,6 +71,7 @@ class Task
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="todo_list", referencedColumnName="id_list")
      * })
+     * @Assert\Type("\App\Entity\TodoList")
      */
     private $todoList;
 
@@ -67,6 +82,7 @@ class Task
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id_user")
      * })
+     * @Assert\Type("App\Entity\User")
      */
     private $user;
 
@@ -147,5 +163,15 @@ class Task
         return $this;
     }
 
+    public function isDone(): ?string
+    {
+        return $this->done;
+    }
 
+    public function setDone(?string $done): self
+    {
+        $this->done = $done;
+
+        return $this;
+    }
 }

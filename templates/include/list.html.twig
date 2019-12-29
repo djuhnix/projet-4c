@@ -10,35 +10,43 @@
         </thead>
         <tbody>
         {% set i = 1 %}
-        {% for todo in todos %}
-            <tr class="">
-                <th scope="row">{{i}}</th>
-                <td>{{todo.name}}</td>
-                <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
-                <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
-                <td class="">
-                    <div class="col">
-                        <a href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
-                            View
-                        </a>
-                        <a href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
-                            <i class="material-icons  text-light">edit</i>
-                        </a>
-                        <a href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
-                            <i class="material-icons text-light">delete_forever</i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% set i = i +1 %}
+        {% if todos | length > 0 %}
 
-        {% endfor %}
+            {% for todo in todos %}
+                <tr class="">
+                    <th scope="row">{{i}}</th>
+                    <td>{{todo.name}}</td>
+                    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
+                    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+                    <td class="">
+                        <div class="col">
+                            <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
+                                <i class="material-icons  text-light">remove_red_eye</i>
+                            </a>
+                            <a id="edit" href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
+                                <i class="material-icons  text-light">edit</i>
+                            </a>
+                            <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
+                                <i class="material-icons text-light">delete_forever</i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% set i = i +1 %}
+
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>x</td>
+                <td colspan="3" class="text-center">No todos</td>
+            </tr>
+        {% endif %}
         </tbody>
         <tfoot>
             <tr>
-                <td>x</td>
-                <td colspan="3" class="text-center" >
-                    <a class=" m-1" href="{{ path(context ~ '_create') }}">
+
+                <td colspan="5" class="text-center" >
+                    <a id="new" class=" m-1" href="{{ path(context ~ '_create') }}">
                         <i class="material-icons btn btn-success">fiber_new</i>
                     </a>
                 </td>

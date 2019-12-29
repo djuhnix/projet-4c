@@ -25,7 +25,10 @@
 
     <div class="row">
         <h2> Tasks</h2>
-        {{ include('include/list.html.twig', {'todos' : todolist, 'context' : 'task'}) }}
+        {{ include('include/list.html.twig', {'todos' : todolist.tasks, 'context' : 'task'}) }}
 
     </div>
 {% endblock body %}
+{% block javascripts %}
+<script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}

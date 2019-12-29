@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TodoList;
-use App\Form\ListType;
+use App\Form\TodoType;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,14 +49,14 @@ class ListController extends AbstractController
     {
         $todo = new TodoList();
 
-        $form = $this->createForm(ListType::class, $todo);
+        $form = $this->createForm(TodoType::class, $todo);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$category = $form['category']->getData();
             $description = $form['description']->getData();
             $dueDate = $form['duedate']->getData();
-            $name = $form['listname']->getData();
+            $name = $form['name']->getData();
 
             $now = new\DateTime('now');
 
@@ -109,7 +109,7 @@ class ListController extends AbstractController
     {
         $idList = $todoList->getId();
 
-        $form = $this->createForm(ListType::class, $todoList);
+        $form = $this->createForm(TodoType::class, $todoList);
 
         $form->handleRequest($request);
 
@@ -117,7 +117,7 @@ class ListController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $todoList = $manager->getRepository(TodoList::class)->find($idList);
 
-            $todoList->setListName($form['listname']->getData());
+            $todoList->setListName($form['name']->getData());
             $todoList->setDescription($form['description']->getData());
             $todoList->setDuedate($form['duedate']->getData());
 
