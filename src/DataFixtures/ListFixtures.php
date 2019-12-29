@@ -16,14 +16,14 @@ class ListFixtures extends Fixture
 
         $list = new TodoList();
         $list
-            ->setListname('Market')
+            ->setName('Market')
             ->setCreatedate(new\DateTime('now'))
             ->setDescription('List for shopping')
             ->setUser($user);
 
         $list2 = new TodoList();
         $list2
-            ->setListname('Playing')
+            ->setName('Playing')
             ->setCreatedate(new\DateTime('now'))
             ->setDescription('Game to be play')
             ->setUser($user);

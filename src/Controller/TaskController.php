@@ -19,10 +19,35 @@ class TaskController extends AbstractController
     /**
      * @Route("/{id}", name="_details", requirements={"id" = "\d+"})
      *
-     * @param Task $task
      * @return Response
      */
     public function details(Task $task)
+    {
+        return $this->render('task/index.html.twig', [
+            'controller_name' => 'ListController',
+            'task' => $task,
+        ]);
+    }
+
+    /**
+     * @Route("/create", name="_create")
+     *
+     * @return Response
+     */
+    public function create(Task $task)
+    {
+        return $this->render('task/index.html.twig', [
+            'controller_name' => 'ListController',
+            'task' => $task,
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="_edit", requirements={"id" = "\d+"})
+     *
+     * @return Response
+     */
+    public function edit(Task $task)
     {
         return $this->render('task/index.html.twig', [
             'controller_name' => 'ListController',

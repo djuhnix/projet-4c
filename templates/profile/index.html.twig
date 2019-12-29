@@ -10,11 +10,17 @@
     </nav>
     <div class="tab-content">
         <div class="tab-pane active in" id="home" role="tabpanel">
-            {{ form(form) }}
+            {{ form_start(form, {'attr' : {'class' : 'm-2'}} ) }}
+                {{ form_row(form.firstname, {'label' : 'Firstname'}) }}
+                {{ form_row(form.lastname, {'label' : 'Lastname'}) }}
+                {{ form_row(form.email, {'label' : 'Email'}) }}
+            <button type="submit" class="btn btn-success m-2">Update Info</button>
+            {{ form_end(form) }}
         </div>
         <div class="tab-pane fade" id="profile" role="tabpanel">
-            {{ form_start(passwordForm ) }}
-                {{ form_row(passwordForm.plainPassword) }}
+            {{ form_start(passwordForm, {'attr' : {'class' : 'm-2'}} ) }}
+                {{ form_row(passwordForm.plainPassword, {'label' : 'New password'}) }}
+            <button type="submit" class="btn btn-success m-2">Update password</button>
             {{ form_end(passwordForm) }}
         </div>
     </div>

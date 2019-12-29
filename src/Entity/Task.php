@@ -20,14 +20,14 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idTask;
+    private $id;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="taskname", type="string", length=45, nullable=true)
      */
-    private $taskname;
+    private $name;
 
     /**
      * @var DateTime
@@ -70,19 +70,19 @@ class Task
      */
     private $user;
 
-    public function getIdTask(): ?int
+    public function getId(): ?int
     {
-        return $this->idTask;
+        return $this->id;
     }
 
-    public function getTaskname(): ?string
+    public function getName(): ?string
     {
-        return $this->taskname;
+        return $this->name;
     }
 
-    public function setTaskname(?string $taskname): self
+    public function setName(?string $name): self
     {
-        $this->taskname = $taskname;
+        $this->name = $name;
 
         return $this;
     }

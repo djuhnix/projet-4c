@@ -6,52 +6,5 @@
 
 {% block body %}
     <h2>Your List</h2>
-
-    <table class="table table-bordered table-responsive-md">
-        <thead>
-        <tr class="">
-            <th >#</th>
-            <th scope="col">List Name</th>
-            <th scope="col">Assigned Date</th>
-            <th scope="col">Due Date</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set i = 1 %}
-        {% for todo in todos %}
-            <tr class="">
-                <th scope="row">{{i}}</th>
-                <td>{{todo.listname}}</td>
-                <td>{{todo.createDate | date('F j, Y, g:i a')}}</td>
-                <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
-                <td class="">
-                    <div class="col">
-                        <a href="{{ path('list_details', {'id': todo.idList}) }}" class="btn btn-success m-1">
-                            <i class="material-icons">remove_red_eye</i>
-                        </a>
-                        <a href="{{ path('list_edit', {'id': todo.idList}) }}" class="btn btn-warning m-1">
-                            <i class="material-icons  text-light">edit</i>
-                        </a>
-                        <a href="{{ path('list_delete', {'id': todo.idList}) }}" class="btn btn-danger m-1">
-                            <i class="material-icons text-light">delete_forever</i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            {% set i = i +1 %}
-
-        {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td></td>
-                <td colspan="3" class="text-center" >
-                    <a class="btn btn-success m-1" href="{{ path("list_create") }}">
-                        <i class="material-icons">fiber_new</i>
-                    </a>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+    {{ include('include/list.html.twig', {'todos' : todos, 'context' : 'list'}) }}
 {% endblock %}

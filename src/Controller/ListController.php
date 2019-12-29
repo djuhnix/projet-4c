@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\TodoList;
+use App\Form\ListType;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,59 +49,19 @@ class ListController extends AbstractController
     {
         $todo = new TodoList();
 
-        $form = $this->createFormBuilder($todo)
-            ->add(
-                'listname',
-                TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            //->add('category', TextType::class, ['attr' => ['class' => 'form-control', 'style' => 'margin-bottom:15px']])
-            ->add(
-                'description',
-                TextareaType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            // ->add('priority', ChoiceType::class, array('choices' => array('Low' => 'Low', 'Normal' => 'Normal', 'High'=>'High'), 'attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
-            ->add(
-                'due_date',
-                DateTimeType::class,
-                [
-                    'attr' => [
-                        'class' => '',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            ->add(
-                'Save',
-                SubmitType::class,
-                [
-                    'label' => 'Create Todo List',
-                    'attr' => [
-                        'class' => 'btn btn-success',
-                        'style' => 'margin-bottom:25px',
-                    ],
-                ])
-            ->getForm();
+        $form = $this->createForm(ListType::class, $todo);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$category = $form['category']->getData();
             $description = $form['description']->getData();
-            $dueDate = $form['due_date']->getData();
+            $dueDate = $form['duedate']->getData();
             $name = $form['listname']->getData();
 
             $now = new\DateTime('now');
 
             $todo
-                ->setListname($name)
+                ->setName($name)
                 ->setDescription($description)
                 ->setDuedate($dueDate)
                 ->setCreateDate($now)
@@ -131,6 +88,7 @@ class ListController extends AbstractController
     /**
      * @Route("/details/{id}", name="_details", requirements={"id" = "\d+"})
      *
+     * @param TodoList $todoList
      * @return Response
      */
     public function details(TodoList $todoList)
@@ -143,79 +101,25 @@ class ListController extends AbstractController
     /**
      * @Route("/edit/{id}", name="_edit", requirements={"id" = "\d+"})
      *
+     * @param TodoList $todoList
+     * @param Request $request
      * @return RedirectResponse|Response
-     *
-     * @throws Exception
      */
     public function edit(TodoList $todoList, Request $request)
     {
-        $now = new\DateTime('now');
-        $idList = $todoList->getIdList();
-        $todoList->setListname($todoList->getListname());
-        //$todoList->setCategory($todoList->getCategory());
-        $todoList->setDescription($todoList->getDescription());
-        $todoList->setDuedate($todoList->getDueDate());
-        $todoList->setCreateDate($now);
+        $idList = $todoList->getId();
 
-        $form = $this->createFormBuilder($todoList)
-            ->add(
-                'listname',
-                TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            /*->add(
-                'category',
-                TextType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            */
-            ->add(
-                'description',
-                TextareaType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            ->add(
-                'due_date',
-                DateTimeType::class,
-                [
-                    'attr' => [
-                        //'class' => '',
-                        'style' => 'margin-bottom:25px',
-                    ],
-                ])
-            ->add(
-                'Save',
-                SubmitType::class,
-                [
-                    'label' => 'Update Todo',
-                    'attr' => [
-                        'class' => 'btn btn-success',
-                        'style' => 'margin-bottom:15px',
-                    ],
-                ])
-            ->getForm();
+        $form = $this->createForm(ListType::class, $todoList);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $todoList = $manager->getRepository(TodoList::class)->find($idList);
 
             $todoList->setListName($form['listname']->getData());
             $todoList->setDescription($form['description']->getData());
-            $todoList->setDuedate($form['due_date']->getData());
-            $todoList->setCreateDate($now);
+            $todoList->setDuedate($form['duedate']->getData());
 
             $manager->flush();
 
@@ -236,7 +140,6 @@ class ListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="_delete", requirements={"id" = "\d+"})
      *
-     * @param TodoList $todoList
      * @return RedirectResponse
      */
     public function delete(TodoList $todoList)

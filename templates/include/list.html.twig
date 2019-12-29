@@ -1,15 +1,3 @@
-{% switch context  %}
-    {% case 'task' %}
-        {% set view_route %}
-        {% set edit_route %}
-        {% set delete_route  %}
-    {% default %}
-        {% set view_route %}
-        {% set edit_route %}
-        {% set delete_route %}
-{% elseif context %}
-
-{% endswitch %}
     <table class="table table-bordered table-responsive-md">
         <thead>
         <tr class="">
@@ -25,18 +13,18 @@
         {% for todo in todos %}
             <tr class="">
                 <th scope="row">{{i}}</th>
-                <td>{{todo.listname}}</td>
-                <td>{{todo.createDate | date('F j, Y, g:i a')}}</td>
+                <td>{{todo.name}}</td>
+                <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
                 <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
                 <td class="">
                     <div class="col">
-                        <a href="{{ path('list_details', {'id': todo.idList}) }}" class="btn btn-success m-1">
+                        <a href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
                             View
                         </a>
-                        <a href="{{ path('list_edit', {'id': todo.idList}) }}" class="btn btn-warning m-1">
+                        <a href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
                             <i class="material-icons  text-light">edit</i>
                         </a>
-                        <a href="{{ path('list_delete', {'id': todo.idList}) }}" class="btn btn-danger m-1">
+                        <a href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
                             <i class="material-icons text-light">delete_forever</i>
                         </a>
                     </div>
@@ -50,7 +38,7 @@
             <tr>
                 <td>x</td>
                 <td colspan="3" class="text-center" >
-                    <a class=" m-1" href="{{ path("list_create") }}">
+                    <a class=" m-1" href="{{ path(context ~ '_create') }}">
                         <i class="material-icons btn btn-success">fiber_new</i>
                     </a>
                 </td>

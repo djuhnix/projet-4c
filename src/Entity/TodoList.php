@@ -6,6 +6,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TodoList.
@@ -22,19 +23,22 @@ class TodoList
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idList;
+    private $id;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="listname", type="string", length=45, nullable=true)
+     * @Assert\NotBlank()
      */
-    private $listname;
+    private $name;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="createDate", type="date", nullable=false)
+     *
+     * @Assert\Type("\DateTime")
      */
     private $createdate;
 
@@ -42,8 +46,14 @@ class TodoList
      * @var DateTime|null
      *
      * @ORM\Column(name="dueDate", type="date", nullable=true)
+     *
+     * @Assert\Type("\DateTime")
+     * @Assert\Expression(
+     *     "value >= this.getCreatedate()",
+     *     message="Due date must be later than the create date"
+     * )
      */
-    private $duedate;
+    private $duedate = null;
 
     /**
      * @var string|null
@@ -74,19 +84,19 @@ class TodoList
         $this->tasks = new ArrayCollection();
     }
 
-    public function getIdList(): ?int
+    public function getId(): ?int
     {
-        return $this->idList;
+        return $this->id;
     }
 
-    public function getListname(): ?string
+    public function getName(): ?string
     {
-        return $this->listname;
+        return $this->name;
     }
 
-    public function setListname(?string $listname): self
+    public function setName(?string $name): self
     {
-        $this->listname = $listname;
+        $this->name = $name;
 
         return $this;
     }
