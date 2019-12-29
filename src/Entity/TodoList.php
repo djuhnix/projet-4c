@@ -69,6 +69,7 @@ class TodoList
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user", referencedColumnName="id_user")
      * })
+     * @Assert\Type("App\Entity\User")
      */
     private $user;
     /**
