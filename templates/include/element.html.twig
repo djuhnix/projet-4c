@@ -1,0 +1,19 @@
+<tr class="">
+    <th id="index" scope="row">{{i}}</th>
+    <td>{{todo.name}}</td>
+    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
+    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+    <td class="">
+        <div class="col">
+            <a id="details" href="{{ path('task_details', {'id': todo.id}) }}" class="btn btn-success m-1">
+                <i class="material-icons  text-light">remove_red_eye</i>
+            </a>
+            <a id="edit" href="{{ path('task_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
+                <i class="material-icons  text-light">edit</i>
+            </a>
+            <a id="delete" href="{{ path('task_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
+                <i class="material-icons text-light">delete_forever</i>
+            </a>
+        </div>
+    </td>
+</tr>

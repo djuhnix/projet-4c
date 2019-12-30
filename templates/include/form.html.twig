@@ -1,12 +1,12 @@
 
 {{form_start(form)}}
-    {{form_row(form.name, {'label' : 'List name'})}}
+    {{form_row(form.name, {'label' : 'Name'})}}
     {{form_row(form.description, {'label' : 'Description'})}}
     <div class="form-group  ">
     {{form_label(form.duedate, 'Due date')}}
-        <div class="form-group col-md-6">
+        <div class="form-group col">
 
-            <div class="mx-a">
+            <div class="mx-a col">
                 {{form_label(form.duedate.date, 'Date')}}
                 <div class="form-error">
                     {{ form_errors(form.duedate.date) }}
@@ -15,7 +15,7 @@
                 {{ form_widget(form.duedate.date.month, {'attr': {'class': 'custom-select mr-sm-2 col-md-2'}}) }}
                 {{ form_widget(form.duedate.date.year, {'attr': {'class': 'custom-select mr-sm-2 col-md-2'}}) }}
             </div>
-            <div class="mx-a">
+            <div class="mx-a col">
                 {{form_label(form.duedate.time, 'Time')}}
                 <div class="form-error">
                     {{ form_errors(form.duedate.time) }}
