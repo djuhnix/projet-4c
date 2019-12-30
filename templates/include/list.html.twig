@@ -20,15 +20,27 @@
                     <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
                     <td class="">
                         <div class="col">
-                            <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
-                                <i class="material-icons  text-light">remove_red_eye</i>
-                            </a>
-                            <a id="edit" href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
-                                <i class="material-icons  text-light">edit</i>
-                            </a>
-                            <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
-                                <i class="material-icons text-light">delete_forever</i>
-                            </a>
+                            {% if context = 'list' %}
+                                <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
+                                    <i class="material-icons  text-light">remove_red_eye</i>
+                                </a>
+                                <a id="edit" href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
+                                    <i class="material-icons  text-light">edit</i>
+                                </a>
+                                <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
+                                    <i class="material-icons text-light">delete_forever</i>
+                                </a>
+                            {% else %}
+                                <a id="details" href="#" class="btn btn-success m-1">
+                                    <i class="material-icons  text-light">remove_red_eye</i>
+                                </a>
+                                <a id="edit" href="#" class="btn btn-warning m-1">
+                                    <i class="material-icons  text-light">edit</i>
+                                </a>
+                                <a id="delete" data-id="{{ todo.id }}" href="#" class="btn btn-danger m-1">
+                                    <i class="material-icons text-light">delete_forever</i>
+                                </a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

@@ -24,6 +24,16 @@ $(document).ready(function() {
                 });
             },
         });
-        event.preventDefault();
+    });
+
+    $('#delete').click(function () {
+        $.ajax({
+            url: '/member/task/delete/' + $(this).data('id'),
+            //data: $(this).serialize(),
+            method: 'GET',
+            success: function (data) {
+                //TODO
+            },
+        });
     });
 });
