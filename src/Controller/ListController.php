@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\TodoList;
+use App\Entity\User;
+use App\Form\ListType;
 use App\Form\TodoType;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -40,14 +42,16 @@ class ListController extends AbstractController
     /**
      * @Route("/create", name="_create")
      *
-     * @param Request $request
      * @return RedirectResponse|Response
      *
      * @throws Exception
      */
     public function create(Request $request)
     {
+        $now = new\DateTime('now');
+
         $todo = new TodoList();
+        $todo->setCreateDate($now);
 
         $form = $this->createForm(TodoType::class, $todo);
 
@@ -58,14 +62,14 @@ class ListController extends AbstractController
             $dueDate = $form['duedate']->getData();
             $name = $form['name']->getData();
 
-            $now = new\DateTime('now');
 
+            /** @var User $user */
+            $user = $this->getUser();
             $todo
                 ->setName($name)
                 ->setDescription($description)
                 ->setDuedate($dueDate)
-                ->setCreateDate($now)
-                ->setUser($this->getUser());
+                ->setUser($user);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->getMetadataFactory()->setMetadataFor(TodoList::class, $manager->getClassMetadata(TodoList::class));
@@ -88,7 +92,6 @@ class ListController extends AbstractController
     /**
      * @Route("/details/{id}", name="_details", requirements={"id" = "\d+"})
      *
-     * @param TodoList $todoList
      * @return Response
      */
     public function details(TodoList $todoList)
@@ -107,17 +110,15 @@ class ListController extends AbstractController
      */
     public function edit(TodoList $todoList, Request $request)
     {
-        $idList = $todoList->getId();
 
-        $form = $this->createForm(TodoType::class, $todoList);
+        $form = $this->createForm(ListType::class, $todoList);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
-            $todoList = $manager->getRepository(TodoList::class)->find($idList);
 
-            $todoList->setListName($form['name']->getData());
+            $todoList->setName($form['name']->getData());
             $todoList->setDescription($form['description']->getData());
             $todoList->setDuedate($form['duedate']->getData());
 
@@ -128,7 +129,7 @@ class ListController extends AbstractController
                 'Todo Updated'
             );
 
-            return $this->redirectToRoute('list_details', ['id' => $idList]);
+            return $this->redirectToRoute('list_details', ['id' => $todoList->getId()]);
         }
 
         return $this->render('list/edit.html.twig', [

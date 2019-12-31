@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+Create a new list
+{% endblock %}
 {% block body %}
-    <h2 class='page-header'>Edit Todos</h2>
-    {{ include('include/form.html.twig', {'form':form, 'button' : 'Add new'}) }}
+    <h2 class='page-header'>Create Todos</h2>
+    {{ include('include/form.html.twig', {'form':form, 'button' : 'Add new', 'context' : ''}) }}
 {% endblock %}

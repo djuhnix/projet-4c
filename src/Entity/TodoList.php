@@ -36,7 +36,7 @@ class TodoList
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="createDate", type="date", nullable=false)
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
      *
      * @Assert\Type("\DateTime")
      */
@@ -45,12 +45,12 @@ class TodoList
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="dueDate", type="date", nullable=true)
+     * @ORM\Column(name="dueDate", type="datetime", nullable=true)
      *
      * @Assert\Type("\DateTime")
      * @Assert\Expression(
      *     "value >= this.getCreatedate()",
-     *     message="Due date must be later than the create date"
+     *     message="Due date must be later than the create date (now)"
      * )
      */
     private $duedate = null;

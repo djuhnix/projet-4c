@@ -13,14 +13,14 @@
         {% if todos | length > 0 %}
 
             {% for todo in todos %}
-                <tr class="">
+                <tr id="{{ todo.id }}">
                     <th id="index" scope="row">{{i}}</th>
                     <td>{{todo.name}}</td>
                     <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
                     <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
                     <td class="">
                         <div class="col">
-                            {% if context = 'list' %}
+                            {% if context == 'list' %}
                                 <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
                                     <i class="material-icons  text-light">remove_red_eye</i>
                                 </a>
@@ -30,14 +30,14 @@
                                 <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
                                     <i class="material-icons text-light">delete_forever</i>
                                 </a>
-                            {% else %}
-                                <a id="details" href="#" class="btn btn-success m-1">
+                            {% elseif context == 'task' %}
+                                <a id="details" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_details', {'id': todo.id}) }}" class="action btn btn-success m-1">
                                     <i class="material-icons  text-light">remove_red_eye</i>
                                 </a>
-                                <a id="edit" href="#" class="btn btn-warning m-1">
+                                <a id="edit" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="action btn btn-warning m-1">
                                     <i class="material-icons  text-light">edit</i>
                                 </a>
-                                <a id="delete" data-id="{{ todo.id }}" href="#" class="btn btn-danger m-1">
+                                <a id="delete" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="action btn btn-danger m-1">
                                     <i class="material-icons text-light">delete_forever</i>
                                 </a>
                             {% endif %}
@@ -48,7 +48,7 @@
 
             {% endfor %}
         {% else %}
-            <tr>
+            <tr id="no">
                 <td>x</td>
                 <td colspan="3" class="text-center">No todos</td>
             </tr>
@@ -58,7 +58,7 @@
             <tr>
 
                 <td colspan="5" class="text-center" >
-                    <a id="new" class=" m-1" data-toggle="modal" data-target="#" data-list="{{ list_id }}">
+                    <a id="new" class=" m-1" data-toggle="modal" data-target="{{ path(context ~ '_create', {'id': list_id}) }}" data-id="{{ list_id }}">
                         <i class="material-icons btn btn-success">fiber_new</i>
                     </a>
                 </td>

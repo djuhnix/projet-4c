@@ -34,7 +34,7 @@ class Task
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="createDate", type="date", nullable=false)
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
      * @Assert\Type("\DateTime")
      */
     private $createdate;
@@ -42,11 +42,11 @@ class Task
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="dueDate", type="date", nullable=true)
+     * @ORM\Column(name="dueDate", type="datetime", nullable=true)
      * @Assert\Type("\DateTime")
      * @Assert\Expression(
      *     "value >= this.getCreatedate()",
-     *     message="Due date must be later than the create date"
+     *     message="Due date must be later than the create date (now)"
      * )
      */
     private $duedate;
@@ -60,9 +60,9 @@ class Task
     /**
      * @var bool|null
      *
-     * @ORM\Column(name="done", type="string", nullable=true)
+     * @ORM\Column(name="done", type="boolean", nullable=true)
      */
-    private $done = false;
+    private $done = 0;
 
     /**
      * @var TodoList
@@ -173,5 +173,10 @@ class Task
         $this->done = $done;
 
         return $this;
+    }
+
+    public function getDone(): ?bool
+    {
+        return $this->done;
     }
 }

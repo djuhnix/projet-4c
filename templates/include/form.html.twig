@@ -1,21 +1,21 @@
 
-{{form_start(form)}}
+{{form_start(form, {'attr': { 'data-context' : context } }) }}
     {{form_row(form.name, {'label' : 'Name'})}}
     {{form_row(form.description, {'label' : 'Description'})}}
     <div class="form-group  ">
     {{form_label(form.duedate, 'Due date')}}
         <div class="form-group col">
 
-            <div class="mx-a col">
+            <div class="mx-a col-md">
                 {{form_label(form.duedate.date, 'Date')}}
                 <div class="form-error">
                     {{ form_errors(form.duedate.date) }}
                 </div>
                 {{ form_widget(form.duedate.date.day, {'attr': {'class': 'custom-select mr-sm-2 col-md-2'}}) }}
-                {{ form_widget(form.duedate.date.month, {'attr': {'class': 'custom-select mr-sm-2 col-md-2'}}) }}
-                {{ form_widget(form.duedate.date.year, {'attr': {'class': 'custom-select mr-sm-2 col-md-2'}}) }}
+                {{ form_widget(form.duedate.date.month, {'attr': {'class': 'custom-select mr-sm-2 col-md-3'}}) }}
+                {{ form_widget(form.duedate.date.year, {'attr': {'class': 'custom-select mr-sm-2 col-md-3'}}) }}
             </div>
-            <div class="mx-a col">
+            <div class="mx-a col-md">
                 {{form_label(form.duedate.time, 'Time')}}
                 <div class="form-error">
                     {{ form_errors(form.duedate.time) }}
@@ -26,5 +26,6 @@
         </div>
         <small>{{ form_help(form.duedate) }}</small>
     </div>
+    {{ form_row(form.done, {'label' : 'Mark as done', label_attr: {class: 'checkbox-custom'}}) }}
 <button type="submit" class="btn btn-success m-2">{{  button }}</button>
 {{form_end(form)}}
