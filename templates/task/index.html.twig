@@ -12,5 +12,17 @@
         <li class="list-group-item"><strong>Create:</strong> {{task.createdate | date('F j, Y, g:i a')}}</li>
         <li class="list-group-item"><strong>Description</strong> : {{task.description}}</li>
         <li class="list-group-item"><strong>Due:</strong> {{task.duedate | date('F j, Y, g:i a')}}</li>
+        <li class="list-group-item"><strong class="align-middle"> Done:</strong>
+            {% if task.done %}
+                <span class="">
+                    <i class="material-icons text-success align-middle">done</i>
+                </span>
+            {% else %}
+                <span class="">
+                    <i class="material-icons text-danger align-middle">close</i>
+                </span>
+            {% endif %}
+        </li>
+
     </ul>
 

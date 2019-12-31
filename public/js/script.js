@@ -87,6 +87,10 @@ $(document).ready(function() {
                     $('.modal-body').html(data);
                     $('.modal').modal('show');
                     $('.modal-title').text("Edit your task");
+                }else if(id === 'details'){
+                    $('.modal-body').html(data);
+                    $('.modal').modal('show');
+                    $('.modal-title').text("Your task");
                 }
             },
         });

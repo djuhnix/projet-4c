@@ -94,7 +94,7 @@ class TaskController extends AbstractController
     public function edit(Request $request, Task $task)
     {
         $form = $this->createForm(TaskType::class, $task)
-        ->add('done', CheckboxType::class);
+        ->add('done', CheckboxType::class, [ 'required' => false]);
 
         $form->handleRequest($request);
 
