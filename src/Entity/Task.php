@@ -69,7 +69,7 @@ class Task
      *
      * @ORM\ManyToOne(targetEntity="TodoList", inversedBy="tasks")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="todo_list", referencedColumnName="id_list")
+     *   @ORM\JoinColumn(name="todo_list", referencedColumnName="id_list", onDelete="CASCADE")
      * })
      * @Assert\Type("\App\Entity\TodoList")
      */

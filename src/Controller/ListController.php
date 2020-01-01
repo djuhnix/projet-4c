@@ -141,6 +141,7 @@ class ListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="_delete", requirements={"id" = "\d+"})
      *
+     * @param TodoList $todoList
      * @return RedirectResponse
      */
     public function delete(TodoList $todoList)

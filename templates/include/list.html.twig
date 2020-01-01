@@ -1,85 +1,105 @@
-    <table class="table table-bordered table-responsive-md">
-        <thead>
-        <tr class="">
-            <th scope="col">#</th>
-            <th scope="col">List Name</th>
-            <th scope="col">Assigned Date</th>
-            <th scope="col">Due Date</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set i = 1 %}
-        {% if todos | length > 0 %}
-
-            {% for todo in todos %}
-                <tr id="{{ todo.id }}">
-                    <th id="index" scope="row">{{i}}</th>
-                    <td>{{todo.name}}</td>
-                    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
-                    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
-                    <td class="">
-                        <div class="col">
-                            {% if context == 'list' %}
-                                <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
-                                    <i class="material-icons  text-light">remove_red_eye</i>
-                                </a>
-                                <a id="edit" href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
-                                    <i class="material-icons  text-light">edit</i>
-                                </a>
-                                <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
-                                    <i class="material-icons text-light">delete_forever</i>
-                                </a>
-                            {% elseif context == 'task' %}
-                                <a id="details" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_details', {'id': todo.id}) }}" class="action btn btn-success m-1">
-                                    <i class="material-icons  text-light">remove_red_eye</i>
-                                </a>
-                                <a id="edit" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="action btn btn-warning m-1">
-                                    <i class="material-icons  text-light">edit</i>
-                                </a>
-                                <a id="delete" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="action btn btn-danger m-1">
-                                    <i class="material-icons text-light">delete_forever</i>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </td>
-                </tr>
-                {% set i = i +1 %}
-
-            {% endfor %}
-        {% else %}
-            <tr id="no">
-                <td>x</td>
-                <td colspan="3" class="text-center">No todos</td>
-            </tr>
+<table class="table table-bordered table-responsive-md">
+    <thead>
+    <tr class="">
+        <th scope="col">#</th>
+        <th scope="col">{{ context | capitalize }} Name</th>
+        <th scope="col">Assigned Date</th>
+        <th scope="col">Due Date</th>
+        {% if context == 'task' %}
+            <th scope="col">Done</th>
         {% endif %}
-        </tbody>
-        <tfoot>
-            <tr>
+        <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set i = 1 %}
+    {% if todos | length > 0 %}
 
-                <td colspan="5" class="text-center" >
-                    <a id="new" class=" m-1" data-toggle="modal" data-target="{{ path(context ~ '_create', {'id': list_id}) }}" data-id="{{ list_id }}">
-                        <i class="material-icons btn btn-success">fiber_new</i>
-                    </a>
+        {% for todo in todos %}
+            <tr id="{{ todo.id }}">
+                <th id="index" scope="row">{{i}}</th>
+                <td>{{todo.name}}</td>
+                <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
+                <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+                {% if context == 'task' and todo.done %}
+                    <td>
+                        <i class="material-icons text-success align-middle">done</i>
+                    </td>
+                {% elseif context == 'task' %}
+                    <td>
+                        <i class="material-icons text-danger align-middle">close</i>
+                    </td>
+                {% endif %}
+                <td class="">
+                    <div class="col">
+                        {% if context == 'list' %}
+                            <a id="details" href="{{ path(context ~ '_details', {'id': todo.id}) }}" class="btn btn-success m-1">
+                                <i class="material-icons  text-light">remove_red_eye</i>
+                            </a>
+                            <a id="edit" href="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="btn btn-warning m-1">
+                                <i class="material-icons  text-light">edit</i>
+                            </a>
+                            <a id="delete" href="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="btn btn-danger m-1">
+                                <i class="material-icons text-light">delete_forever</i>
+                            </a>
+                        {% elseif context == 'task' %}
+                            <a id="details" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_details', {'id': todo.id}) }}" class="action btn btn-success m-1">
+                                <i class="material-icons  text-light">remove_red_eye</i>
+                            </a>
+                            <a id="edit" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="action btn btn-warning m-1">
+                                <i class="material-icons  text-light">edit</i>
+                            </a>
+                            <a id="delete" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="action btn btn-danger m-1">
+                                <i class="material-icons text-light">delete_forever</i>
+                            </a>
+                        {% endif %}
+                    </div>
                 </td>
             </tr>
-        </tfoot>
-    </table>
-    <!-- Modal -->
-    <div class="modal fade" id="new_form" tabindex="-1" role="dialog" aria-labelledby="new_formLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+            {% set i = i +1 %}
+
+        {% endfor %}
+    {% else %}
+        <tr id="no">
+            <td>x</td>
+            {% if context == 'task' %}
+                <td colspan="4" class="text-center">No todos</td>
+            {% else %}
+                <td colspan="3" class="text-center">No todos</td>
+            {% endif %}
+        </tr>
+    {% endif %}
+    </tbody>
+    <tfoot>
+    <tr>
+        {% if context == 'task' %}
+            <td colspan="6" class="text-center" >
+                {% else %}
+        <td colspan="5" class="text-center" >
+            {% endif %}
+
+            <a id="new" class=" m-1" data-toggle="modal" data-target="{{ path(context ~ '_create', {'id': list_id}) }}" data-id="{{ list_id }}">
+                <i class="material-icons btn btn-success">fiber_new</i>
+            </a>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<!-- Modal -->
+<div class="modal fade" id="new_form" tabindex="-1" role="dialog" aria-labelledby="new_formLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="new_formLabel">New {{ context }}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              {#
-              {{ include('include/form.html.twig', {'form' : form})}}
-               #}
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="new_formLabel">New {{ context }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {#
+                {{ include('include/form.html.twig', {'form' : form})}}
+                 #}
+            </div>
             {#
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -87,5 +107,5 @@
           </div>
           #}
         </div>
-      </div>
     </div>
+</div>

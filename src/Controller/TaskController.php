@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Entity\TodoList;
 use App\Entity\User;
 use App\Form\TaskType;
+use DateTime;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,7 +48,7 @@ class TaskController extends AbstractController
     public function create(Request $request, TodoList $list)
     {
         $task = new Task();
-        $task->setCreatedate(new \DateTime());
+        $task->setCreatedate(new DateTime());
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,12 +90,14 @@ class TaskController extends AbstractController
     /**
      * @Route("/edit/{id}", name="_edit", requirements={"id" = "\d+"})
      *
+     * @param Request $request
+     * @param Task $task
      * @return Response
      */
     public function edit(Request $request, Task $task)
     {
         $form = $this->createForm(TaskType::class, $task)
-        ->add('done', CheckboxType::class, [ 'required' => false]);
+        ->add('done', CheckboxType::class, ['required' => false]);
 
         $form->handleRequest($request);
 

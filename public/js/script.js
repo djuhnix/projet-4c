@@ -79,7 +79,6 @@ $(document).ready(function() {
             success: function (data) {
                 if (id === 'delete'){
                     if( data['res'] === true){
-
                         $(`#${task_id}`).addClass('d-none');
                         hiddeNo();
                     }
@@ -90,7 +89,7 @@ $(document).ready(function() {
                 }else if(id === 'details'){
                     $('.modal-body').html(data);
                     $('.modal').modal('show');
-                    $('.modal-title').text("Your task");
+                    $('.modal-title').text("Your task" + $('#' + task_id).find('td:first-child').text());
                 }
             },
         });

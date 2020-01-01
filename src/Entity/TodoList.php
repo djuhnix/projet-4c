@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -67,7 +68,7 @@ class TodoList
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="lists")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user", referencedColumnName="id_user")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="id_user", onDelete="CASCADE")
      * })
      * @Assert\Type("App\Entity\User")
      */
@@ -102,24 +103,24 @@ class TodoList
         return $this;
     }
 
-    public function getCreatedate(): ?\DateTimeInterface
+    public function getCreatedate(): ?DateTimeInterface
     {
         return $this->createdate;
     }
 
-    public function setCreatedate(\DateTimeInterface $createdate): self
+    public function setCreatedate(DateTimeInterface $createdate): self
     {
         $this->createdate = $createdate;
 
         return $this;
     }
 
-    public function getDuedate(): ?\DateTimeInterface
+    public function getDuedate(): ?DateTimeInterface
     {
         return $this->duedate;
     }
 
-    public function setDuedate(?\DateTimeInterface $duedate): self
+    public function setDuedate(?DateTimeInterface $duedate): self
     {
         $this->duedate = $duedate;
 
