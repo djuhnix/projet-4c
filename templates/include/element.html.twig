@@ -1,0 +1,28 @@
+<tr id="{{ todo.id }}" class="">
+    <th id="index" scope="row">{{i}}</th>
+    <td>{{todo.name}}</td>
+    <td>{{todo.createdate | date('F j, Y, g:i a')}}</td>
+    <td>{{todo.duedate | date('F j, Y, g:i a')}}</td>
+    {% if context == 'task' and todo.done %}
+        <td>
+            <i class="material-icons text-success align-middle">done</i>
+        </td>
+    {% elseif context == 'task' %}
+        <td>
+            <i class="material-icons text-danger align-middle">close</i>
+        </td>
+    {% endif %}
+    <td class="">
+        <div class="col">
+            <a id="details" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_details', {'id': todo.id}) }}" class="action btn btn-success m-1">
+                <i class="material-icons  text-light">remove_red_eye</i>
+            </a>
+            <a id="edit" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_edit', {'id': todo.id}) }}" class="action btn btn-warning m-1">
+                <i class="material-icons  text-light">edit</i>
+            </a>
+            <a id="delete" data-id="{{ todo.id }}" data-target="{{ path(context ~ '_delete', {'id': todo.id}) }}" class="action btn btn-danger m-1">
+                <i class="material-icons text-light">delete_forever</i>
+            </a>
+        </div>
+    </td>
+</tr>

@@ -1,15 +1,28 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}
 
 {% block body %}
-    {#</br></br></br>#}
-    <a href="{{ path('list_details', {'id': task.todoList.idList}) }}" class="btn btn-primary m-1">Back to Todos</a>
+
+    <a href="{{ path('list_details', {'id': task.todoList.id}) }}" class="btn btn-primary m-1">Back to Todos</a>
     <h2 class="page-header">{{task.taskname}}</h2>
     <hr>
+{% endblock %}
+    #}
     <ul class="list-group">
         {#<li class="list-group-item">Category : {{category}}</li>#}
         <li class="list-group-item"><strong>Create:</strong> {{task.createdate | date('F j, Y, g:i a')}}</li>
         <li class="list-group-item"><strong>Description</strong> : {{task.description}}</li>
         <li class="list-group-item"><strong>Due:</strong> {{task.duedate | date('F j, Y, g:i a')}}</li>
+        <li class="list-group-item"><strong class="align-middle"> Done:</strong>
+            {% if task.done %}
+                <span class="">
+                    <i class="material-icons text-success align-middle">done</i>
+                </span>
+            {% else %}
+                <span class="">
+                    <i class="material-icons text-danger align-middle">close</i>
+                </span>
+            {% endif %}
+        </li>
+
     </ul>
 
-{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,7 +37,7 @@ class TodoList
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="createDate", type="date", nullable=false)
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
      *
      * @Assert\Type("\DateTime")
      */
@@ -45,12 +46,12 @@ class TodoList
     /**
      * @var DateTime|null
      *
-     * @ORM\Column(name="dueDate", type="date", nullable=true)
+     * @ORM\Column(name="dueDate", type="datetime", nullable=true)
      *
      * @Assert\Type("\DateTime")
      * @Assert\Expression(
      *     "value >= this.getCreatedate()",
-     *     message="Due date must be later than the create date"
+     *     message="Due date must be later than the create date (now)"
      * )
      */
     private $duedate = null;
@@ -67,7 +68,7 @@ class TodoList
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="lists")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user", referencedColumnName="id_user")
+     *   @ORM\JoinColumn(name="user", referencedColumnName="id_user", onDelete="CASCADE")
      * })
      * @Assert\Type("App\Entity\User")
      */
@@ -102,24 +103,24 @@ class TodoList
         return $this;
     }
 
-    public function getCreatedate(): ?\DateTimeInterface
+    public function getCreatedate(): ?DateTimeInterface
     {
         return $this->createdate;
     }
 
-    public function setCreatedate(\DateTimeInterface $createdate): self
+    public function setCreatedate(DateTimeInterface $createdate): self
     {
         $this->createdate = $createdate;
 
         return $this;
     }
 
-    public function getDuedate(): ?\DateTimeInterface
+    public function getDuedate(): ?DateTimeInterface
     {
         return $this->duedate;
     }
 
-    public function setDuedate(?\DateTimeInterface $duedate): self
+    public function setDuedate(?DateTimeInterface $duedate): self
     {
         $this->duedate = $duedate;
 
