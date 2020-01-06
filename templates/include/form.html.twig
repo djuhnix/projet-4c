@@ -26,6 +26,8 @@
         </div>
         <small>{{ form_help(form.duedate) }}</small>
     </div>
-    {{ form_row(form.done, {'label' : 'Mark as done', label_attr: {class: 'checkbox-custom'}}) }}
+    {% if context == 'task' %}
+        {{ form_row(form.done, {'label' : 'Mark as done', label_attr: {class: 'checkbox-custom'}}) }}
+    {% endif %}
 <button type="submit" class="btn btn-success m-2">{{  button }}</button>
 {{form_end(form)}}
