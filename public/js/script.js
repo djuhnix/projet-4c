@@ -2,8 +2,8 @@ $(document).ready(function() {
 
     $('.modal-body').on('submit', 'form', function (event) {
         let url, id;
-        let context = $(this).data('context');
-        switch (context) {
+        let action = $(this).data('action');
+        switch (action) {
             case 'edit':
                 let edit = $('#edit');
                 url = edit.data('target');
@@ -14,33 +14,34 @@ $(document).ready(function() {
                 url = details.data('target');
                 id = details.data('id');
                 break;
-            case 'new':
+            case 'create':
                 let n_new = $('#new');
                 url = n_new.data('target');
                 id = n_new.data('id');
         }
-        $.ajax({
-            url: url,
-            data: $('form').serialize(),
-            method: 'POST',
-            success: function (data) {
-                if(data.includes( "form" ))
-                {
-                    //$('.modal-body form').replaceWith(data)
-                    $('.modal-body').html(data);
-                }else {
-                    if(context === 'edit')
+        $.ajax(
+            {
+                url: url,
+                data: $('form').serialize(),
+                method: 'POST',
+                success: function (data) {
+                    if(data.includes( "form" ))
                     {
-                        $('#' + id).replaceWith(data)
-                    }else if(context === 'new')
-                    {
-                        $('tbody').append(data);
-                        hiddeNo();
+                        //$('.modal-body form').replaceWith(data)
+                        $('.modal-body').html(data);
+                    }else {
+                        if(action === 'edit')
+                        {
+                            $('#' + id).replaceWith(data)
+                        }else if(action === 'create')
+                        {
+                            $('tbody').append(data);
+                            hiddeNo();
+                        }
+                        $('.modal').modal('hide');
                     }
-                    $('.modal').modal('hide');
-                }
-            },
-        });
+                },
+            });
         event.preventDefault();
     });
     //
@@ -64,7 +65,7 @@ $(document).ready(function() {
     }
     function hiddeNo(){
         const no = $('#no');
-        if ($('tbody tr').length === 0 || !no.hasClass('d-none')) {
+        if ($('tbody tr').length > 0 ) {
             no.addClass('d-none');
         }else{
             no.removeClass('d-none')

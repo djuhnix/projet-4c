@@ -15,7 +15,7 @@
             <li class="list-group-item"><strong>Due:</strong> {{todolist.duedate | date('F j, Y, g:i a')}}</li>
         </ul>
         <div class="col-md-4 py-2 text-lg-left text-center">
-            <div class="cool d-inline d-md-block  my-2">
+            <div class="col d-inline d-md-block  my-2">
                 <a href="{{ path('list_edit', {'id': todolist.id}) }}" class=" btn btn-warning my-auto">
                     <i class="material-icons  text-light">edit</i>
                 </a>

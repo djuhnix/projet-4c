@@ -6,6 +6,9 @@ use App\Entity\TodoList;
 use App\Entity\User;
 use App\Form\ListType;
 use App\Form\TodoType;
+use App\Repository\ListRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,7 +65,6 @@ class ListController extends AbstractController
             $dueDate = $form['duedate']->getData();
             $name = $form['name']->getData();
 
-
             /** @var User $user */
             $user = $this->getUser();
             $todo
@@ -107,10 +109,11 @@ class ListController extends AbstractController
      * @param TodoList $todoList
      * @param Request $request
      * @return RedirectResponse|Response
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function edit(TodoList $todoList, Request $request)
     {
-
         $form = $this->createForm(ListType::class, $todoList);
 
         $form->handleRequest($request);
@@ -128,12 +131,12 @@ class ListController extends AbstractController
                 'notice',
                 'Todo Updated'
             );
-
-            return $this->redirectToRoute('list_details', ['id' => $todoList->getId()]);
+            /** @var ListRepository $repository */
+            //$repository = $manager->getRepository(TodoList::class);
+            return  $this->redirectToRoute('list_details', ['id' => $todoList->getId()]);
         }
 
         return $this->render('list/edit.html.twig', [
-            'todo' => $todoList,
             'form' => $form->createView(),
         ]);
     }
@@ -141,7 +144,6 @@ class ListController extends AbstractController
     /**
      * @Route("/delete/{id}", name="_delete", requirements={"id" = "\d+"})
      *
-     * @param TodoList $todoList
      * @return RedirectResponse
      */
     public function delete(TodoList $todoList)
