@@ -74,14 +74,17 @@
     <tr>
         {% if context == 'task' %}
             <td colspan="6" class="text-center" >
-                {% else %}
-        <td colspan="5" class="text-center" >
-            {% endif %}
-
-            <a id="new" class=" m-1" data-toggle="modal" data-target="{{ path(context ~ '_create', {'id': list_id}) }}" data-id="{{ list_id }}">
-                <i class="material-icons btn btn-success">fiber_new</i>
-            </a>
-        </td>
+                <a id="new" class=" m-1" data-toggle="modal" data-target="{{ path(context ~ '_create', {'id': list_id}) }}" data-id="{{ list_id }}">
+                    <i class="material-icons btn btn-success">fiber_new</i>
+                </a>
+            </td>
+        {% else %}
+            <td colspan="5" class="text-center" >
+                <a id="new" class=" m-1" href="{{ path(context ~ '_create') }}" >
+                    <i class="material-icons btn btn-success">fiber_new</i>
+                </a>
+            </td>
+        {% endif %}
     </tr>
     </tfoot>
 </table>

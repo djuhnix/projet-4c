@@ -82,7 +82,8 @@ class TaskController extends AbstractController
 
         return $this->render('include/form.html.twig', [
             'form' => $form->createView(),
-            'context' => 'create',
+            'context' => 'task',
+            'action' => 'create',
             'button' => 'Add new',
         ]);
     }
@@ -118,7 +119,8 @@ class TaskController extends AbstractController
 
         return $this->render('include/form.html.twig', [
             'form' => $form->createView(),
-            'context' => 'edit',
+            'context' => 'task',
+            'action' => 'edit',
             'button' => 'Save',
         ]);
     }

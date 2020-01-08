@@ -5,5 +5,5 @@
 {% block button %}Save{% endblock %}
 {% block body %}
     <h2 class='page-header'>Edit Todos</h2>
-    {{ include('include/form.html.twig', {'form':form, 'button' : 'Save', 'context' : ''}) }}
+    {{ include('include/form.html.twig', {'form':form, 'button' : 'Save', 'context' : 'list', action: 'edit'}) }}
 {% endblock %}

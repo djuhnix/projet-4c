@@ -1,5 +1,5 @@
 
-{{form_start(form, {'attr': { 'data-context' : context } }) }}
+{{form_start(form, {'attr': { 'data-action' : action } }) }}
     {{form_row(form.name, {'label' : 'Name'})}}
     {{form_row(form.description, {'label' : 'Description'})}}
     <div class="form-group  ">
@@ -26,6 +26,8 @@
         </div>
         <small>{{ form_help(form.duedate) }}</small>
     </div>
-    {{ form_row(form.done, {'label' : 'Mark as done', label_attr: {class: 'checkbox-custom'}}) }}
+    {% if context == 'task' and action == 'edit' %}
+        {{ form_row(form.done, {'label' : 'Mark as done', label_attr: {class: 'checkbox-custom'}}) }}
+    {% endif %}
 <button type="submit" class="btn btn-success m-2">{{  button }}</button>
 {{form_end(form)}}
